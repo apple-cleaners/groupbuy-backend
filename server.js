@@ -22,7 +22,8 @@ const UserSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', UserSchema);
-
+const cors = require('cors');
+app.use(cors()); // ← This must be before your routes
 // Routes
 app.post('/api/register', async (req, res) => {
   try {
@@ -34,6 +35,15 @@ app.post('/api/register', async (req, res) => {
     res.send({ user, token });
   } catch (e) {
     res.status(400).send({ error: e.message });
+  }
+});
+// Registration Route
+app.post('/api/register', async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+    res.json({ success: true, message: "Registration successful!" });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
